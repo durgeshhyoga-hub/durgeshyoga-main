@@ -1,4 +1,4 @@
-import { Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Mail, Phone, MapPin, Laptop } from "lucide-react";
 import { useAllSiteContent } from "@/hooks/useSiteContent";
 
 export function Footer() {
@@ -10,7 +10,7 @@ export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="section-container py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -74,6 +74,34 @@ export function Footer() {
                 <MapPin className="h-4 w-4" />
                 {contactContent.location || "Gujarat, India"}
               </div>
+            </div>
+          </div>
+
+          {/* Developer Info */}
+          <div>
+            <h4 className="font-semibold mb-4">Developer</h4>
+            <div className="flex flex-col gap-3">
+              <p className="text-sm text-primary-foreground/70 leading-relaxed mb-2">
+                I am Shyam. If anyone wants to make a website then contact me.
+              </p>
+              <a
+                href="mailto:shyamweb27@gmail.com"
+                className="flex items-center gap-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                title="Email Developer"
+              >
+                <Mail className="h-4 w-4" />
+                shyamweb27@gmail.com
+              </a>
+              <a
+                href="https://instagram.com/shyam__patel_27"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                title="Developer Instagram"
+              >
+                <Instagram className="h-4 w-4" />
+                @shyam__patel_27
+              </a>
             </div>
           </div>
         </div>
