@@ -31,6 +31,29 @@ export function AboutSection() {
   const aboutContent = content.about || {};
   const aboutImage = aboutContent.image || DEFAULT_ABOUT_IMAGE;
 
+  const highlights = [
+    {
+      icon: Award,
+      title: aboutContent.highlight_1_title || "Government Role",
+      description: aboutContent.highlight_1_desc || "District Co-Ordinator at Gujarat State Yog Board (Govt. of Gujarat)",
+    },
+    {
+      icon: BookOpen,
+      title: aboutContent.highlight_2_title || "Certified Training",
+      description: aboutContent.highlight_2_desc || "100-Hour Yoga Training from Gujarat State Yog Board",
+    },
+    {
+      icon: Users,
+      title: aboutContent.highlight_3_title || "Diverse Audience",
+      description: aboutContent.highlight_3_desc || "Students, medical professionals, corporate teams, and government staff",
+    },
+    {
+      icon: Target,
+      title: aboutContent.highlight_4_title || "Practical Focus",
+      description: aboutContent.highlight_4_desc || "Scientific, practical, and result-oriented yoga education",
+    },
+  ];
+
   return (
     <section id="about" className="section-padding bg-card">
       <div className="section-container">
@@ -53,8 +76,8 @@ export function AboutSection() {
                   <Award className="h-6 w-6 text-accent" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">Govt. Certified</p>
-                  <p className="text-sm text-muted-foreground">Gujarat State Yog Board</p>
+                  <p className="font-semibold text-foreground">{aboutContent.card_title || "Govt. Certified"}</p>
+                  <p className="text-sm text-muted-foreground">{aboutContent.card_subtitle || "Gujarat State Yog Board"}</p>
                 </div>
               </div>
             </div>
@@ -63,20 +86,20 @@ export function AboutSection() {
           {/* Content Side */}
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
-              <span className="text-sm font-medium text-muted-foreground">About Me</span>
+              <span className="text-sm font-medium text-muted-foreground">{aboutContent.badge || "About Me"}</span>
             </div>
 
             <h2 className="heading-lg mb-6">
-              Spreading Practical & Scientific{" "}
-              <span className="text-gradient">Yoga Education</span>
+              {aboutContent.title || "Spreading Practical & Scientific "}{" "}
+              {!aboutContent.title && <span className="text-gradient">Yoga Education</span>}
             </h2>
 
             <p className="body-lg mb-6">
-              As the District Co-Ordinator at Gujarat State Yog Board, I am dedicated to spreading the benefits of yoga through practical, scientific, and motivational sessions.
+              {aboutContent.description_1 || "As the District Co-Ordinator at Gujarat State Yog Board, I am dedicated to spreading the benefits of yoga through practical, scientific, and motivational sessions."}
             </p>
 
             <p className="text-muted-foreground leading-relaxed mb-8">
-              My mission is to make yoga accessible and impactful for everyone—from students and healthcare professionals to corporate teams and government employees. I focus on real-world applications of yoga for stress management, physical health, and mental clarity.
+              {aboutContent.description_2 || "My mission is to make yoga accessible and impactful for everyone—from students and healthcare professionals to corporate teams and government employees. I focus on real-world applications of yoga for stress management, physical health, and mental clarity."}
             </p>
 
             {/* Highlights Grid */}

@@ -1,9 +1,12 @@
 import { useGalleryLinks } from "@/hooks/useGalleryLinks";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
+import { useAllSiteContent } from "@/hooks/useSiteContent";
 
 export function GallerySection() {
   const { data: links = [], isLoading } = useGalleryLinks();
+  const { data: content = {} } = useAllSiteContent();
+  const galleryContent = content.gallery || {};
 
   // Filter active links with valid URLs
   const activeLinks = links.filter(link => link.is_active && link.drive_url);
@@ -19,14 +22,13 @@ export function GallerySection() {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
-            <span className="text-sm font-medium text-muted-foreground">Gallery</span>
+            <span className="text-sm font-medium text-muted-foreground">{galleryContent.badge || "Gallery"}</span>
           </div>
           <h2 className="heading-lg mb-4">
-            Glimpses of Our{" "}
-            <span className="text-gradient">Yoga Sessions</span>
+            {galleryContent.title || "Glimpses of Our Yoga Sessions"}
           </h2>
           <p className="body-lg">
-            Moments captured from workshops, training sessions, and yoga events across Gujarat.
+            {galleryContent.description || "Moments captured from workshops, training sessions, and yoga events across Gujarat."}
           </p>
         </div>
 

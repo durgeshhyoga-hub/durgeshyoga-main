@@ -1,53 +1,57 @@
 
 
-const experiences = [
-  {
-    institution: "GINERA, Civil Hospital",
-    program: "Stress Management Session",
-    type: "Healthcare",
-    description: "Conducted comprehensive stress management workshops for medical staff and healthcare workers.",
-  },
-  {
-    institution: "GMERS College, Sola Civil",
-    program: "Yogic Management & Motivational Talks",
-    type: "Medical Education",
-    description: "Delivered yogic management sessions combined with motivational talks for medical students and faculty.",
-  },
-  {
-    institution: "Shalby Multispecialty Hospital",
-    program: "Practical Yoga Sessions",
-    type: "Healthcare",
-    description: "Practical yoga program designed specifically for doctors, nurses, and hospital staff at SG Road location.",
-  },
-  {
-    institution: "Victoria Jubilee College of Nursing",
-    program: "Practical Yoga Session",
-    type: "Nursing Education",
-    description: "Specialized yoga sessions for nursing students at Kalupur, focusing on physical and mental well-being.",
-  },
-  {
-    institution: "Aashka Hospital, Gandhinagar",
-    program: "Yogic Management for Medical Staff",
-    type: "Healthcare",
-    description: "Complete yogic management program tailored for the medical and administrative staff.",
-  },
-];
+import { useAllSiteContent } from "@/hooks/useSiteContent";
 
 export function ExperienceSection() {
+  const { data: content = {} } = useAllSiteContent();
+  const expContent = content.experience || {};
+
+  const experiences = [
+    {
+      institution: expContent.exp_1_inst || "GINERA, Civil Hospital",
+      program: expContent.exp_1_prog || "Stress Management Session",
+      type: expContent.exp_1_type || "Healthcare",
+      description: expContent.exp_1_desc || "Conducted comprehensive stress management workshops for medical staff and healthcare workers.",
+    },
+    {
+      institution: expContent.exp_2_inst || "GMERS College, Sola Civil",
+      program: expContent.exp_2_prog || "Yogic Management & Motivational Talks",
+      type: expContent.exp_2_type || "Medical Education",
+      description: expContent.exp_2_desc || "Delivered yogic management sessions combined with motivational talks for medical students and faculty.",
+    },
+    {
+      institution: expContent.exp_3_inst || "Shalby Multispecialty Hospital",
+      program: expContent.exp_3_prog || "Practical Yoga Sessions",
+      type: expContent.exp_3_type || "Healthcare",
+      description: expContent.exp_3_desc || "Practical yoga program designed specifically for doctors, nurses, and hospital staff at SG Road location.",
+    },
+    {
+      institution: expContent.exp_4_inst || "Victoria Jubilee College of Nursing",
+      program: expContent.exp_4_prog || "Practical Yoga Session",
+      type: expContent.exp_4_type || "Nursing Education",
+      description: expContent.exp_4_desc || "Specialized yoga sessions for nursing students at Kalupur, focusing on physical and mental well-being.",
+    },
+    {
+      institution: expContent.exp_5_inst || "Aashka Hospital, Gandhinagar",
+      program: expContent.exp_5_prog || "Yogic Management for Medical Staff",
+      type: expContent.exp_5_type || "Healthcare",
+      description: expContent.exp_5_desc || "Complete yogic management program tailored for the medical and administrative staff.",
+    },
+  ];
+
   return (
     <section id="experience" className="section-padding bg-card">
       <div className="section-container">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
-            <span className="text-sm font-medium text-muted-foreground">Experience</span>
+            <span className="text-sm font-medium text-muted-foreground">{expContent.badge || "Experience"}</span>
           </div>
           <h2 className="heading-lg mb-4">
-            Notable{" "}
-            <span className="text-gradient">Programs & Engagements</span>
+            {expContent.title || "Notable Programs & Engagements"}
           </h2>
           <p className="body-lg">
-            Trusted by leading healthcare institutions, educational organizations, and government bodies across Gujarat.
+            {expContent.description || "Trusted by leading healthcare institutions, educational organizations, and government bodies across Gujarat."}
           </p>
         </div>
 
@@ -60,9 +64,8 @@ export function ExperienceSection() {
             {experiences.map((exp, index) => (
               <div
                 key={index}
-                className={`relative flex flex-col md:flex-row gap-4 md:gap-8 ${
-                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
+                className={`relative flex flex-col md:flex-row gap-4 md:gap-8 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                  }`}
               >
                 {/* Timeline Dot */}
                 <div className="absolute left-4 md:left-1/2 w-3 h-3 bg-accent rounded-full border-4 border-background md:-translate-x-1.5 z-10" />

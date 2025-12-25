@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#services", label: "Services" },
-  { href: "#experience", label: "Experience" },
-  { href: "#gallery", label: "Gallery" },
-  { href: "#contact", label: "Contact" },
-];
+import { useAllSiteContent } from "@/hooks/useSiteContent";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: content = {} } = useAllSiteContent();
+  const headerContent = content.header || {};
+
+  const navLinks = [
+    { href: "#home", label: headerContent.nav_home || "Home" },
+    { href: "#about", label: headerContent.nav_about || "About" },
+    { href: "#services", label: headerContent.nav_services || "Services" },
+    { href: "#experience", label: headerContent.nav_experience || "Experience" },
+    { href: "#gallery", label: headerContent.nav_gallery || "Gallery" },
+    { href: "#contact", label: headerContent.nav_contact || "Contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,11 +28,10 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-card/95 backdrop-blur-md shadow-soft"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? "bg-card/95 backdrop-blur-md shadow-soft"
+        : "bg-transparent"
+        }`}
     >
       <nav className="section-container">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -59,7 +61,7 @@ export function Header() {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Button variant="hero" size="default" asChild>
-              <a href="#contact">Book a Session</a>
+              <a href="#contact">{headerContent.cta_text || "Book a Session"}</a>
             </Button>
           </div>
 
@@ -93,7 +95,7 @@ export function Header() {
               ))}
               <Button variant="hero" size="lg" className="mt-2" asChild>
                 <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
-                  Book a Session
+                  {headerContent.cta_text || "Book a Session"}
                 </a>
               </Button>
             </div>

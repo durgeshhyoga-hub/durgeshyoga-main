@@ -6,7 +6,7 @@ const DEFAULT_HERO_IMAGE = "https://images.unsplash.com/photo-1544367567-0f2fcb0
 
 export function HeroSection() {
   const { data: content = {} } = useAllSiteContent();
-  
+
   const heroContent = content.hero || {};
   const statsContent = content.stats || {};
 
@@ -46,30 +46,30 @@ export function HeroSection() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6 animate-fade-in">
               <span className="w-2 h-2 rounded-full bg-accent" />
               <span className="text-sm font-medium text-muted-foreground">
-                District Co-Ordinator, Gujarat State Yog Board
+                {heroContent.badge_text || "District Co-Ordinator, Gujarat State Yog Board"}
               </span>
             </div>
 
             <h1 className="heading-xl mb-6 animate-slide-up" style={{ animationDelay: "0.1s" }}>
-              Empowering Health, Discipline & Awareness{" "}
-              <span className="text-gradient">Through Yoga</span>
+              {heroContent.title || "Empowering Health, Discipline & Awareness "}
+              {!heroContent.title && <span className="text-gradient">Through Yoga</span>}
             </h1>
 
             <p className="body-lg max-w-xl mx-auto lg:mx-0 mb-8 animate-slide-up" style={{ animationDelay: "0.2s" }}>
-              Practical yoga sessions, meditation workshops, and motivational talks for colleges, hospitals, government institutions, and corporate offices across Gujarat.
+              {heroContent.subtitle || "Practical yoga sessions, meditation workshops, and motivational talks for colleges, hospitals, government institutions, and corporate offices across Gujarat."}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-slide-up" style={{ animationDelay: "0.3s" }}>
               <Button variant="hero" size="xl" asChild>
                 <a href="#contact">
-                  Book a Session
+                  {heroContent.cta_primary || "Book a Session"}
                   <ArrowRight className="h-5 w-5" />
                 </a>
               </Button>
               <Button variant="outline-hero" size="xl" asChild>
                 <a href="#services">
                   <Play className="h-5 w-5" />
-                  View Programs
+                  {heroContent.cta_secondary || "View Programs"}
                 </a>
               </Button>
             </div>

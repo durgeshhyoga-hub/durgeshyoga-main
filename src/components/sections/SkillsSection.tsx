@@ -1,53 +1,57 @@
 import { Brain, Mic, Apple, Activity, Heart } from "lucide-react";
 
-const skills = [
-  {
-    icon: Brain,
-    title: "Meditation Facilitation",
-    description: "Guiding individuals and groups through mindfulness practices and deep relaxation techniques.",
-    level: 95,
-  },
-  {
-    icon: Mic,
-    title: "Motivational Speaking",
-    description: "Inspiring audiences with compelling talks on health, discipline, and lifestyle transformation.",
-    level: 90,
-  },
-  {
-    icon: Apple,
-    title: "Diet & Lifestyle Awareness",
-    description: "Educating on balanced nutrition and healthy lifestyle choices for holistic well-being.",
-    level: 85,
-  },
-  {
-    icon: Activity,
-    title: "Practical Yoga Instruction",
-    description: "Teaching safe, effective, and personalized yoga practices for all skill levels.",
-    level: 95,
-  },
-  {
-    icon: Heart,
-    title: "Stress & Disease Awareness",
-    description: "Providing education on how yoga can help manage stress and prevent lifestyle diseases.",
-    level: 90,
-  },
-];
+import { useAllSiteContent } from "@/hooks/useSiteContent";
 
 export function SkillsSection() {
+  const { data: content = {} } = useAllSiteContent();
+  const skillsContent = content.skills || {};
+
+  const skills = [
+    {
+      icon: Brain,
+      title: skillsContent.skill_1_title || "Meditation Facilitation",
+      description: skillsContent.skill_1_desc || "Guiding individuals and groups through mindfulness practices and deep relaxation techniques.",
+      level: parseInt(skillsContent.skill_1_level || "95"),
+    },
+    {
+      icon: Mic,
+      title: skillsContent.skill_2_title || "Motivational Speaking",
+      description: skillsContent.skill_2_desc || "Inspiring audiences with compelling talks on health, discipline, and lifestyle transformation.",
+      level: parseInt(skillsContent.skill_2_level || "90"),
+    },
+    {
+      icon: Apple,
+      title: skillsContent.skill_3_title || "Diet & Lifestyle Awareness",
+      description: skillsContent.skill_3_desc || "Educating on balanced nutrition and healthy lifestyle choices for holistic well-being.",
+      level: parseInt(skillsContent.skill_3_level || "85"),
+    },
+    {
+      icon: Activity,
+      title: skillsContent.skill_4_title || "Practical Yoga Instruction",
+      description: skillsContent.skill_4_desc || "Teaching safe, effective, and personalized yoga practices for all skill levels.",
+      level: parseInt(skillsContent.skill_4_level || "95"),
+    },
+    {
+      icon: Heart,
+      title: skillsContent.skill_5_title || "Stress & Disease Awareness",
+      description: skillsContent.skill_5_desc || "Providing education on how yoga can help manage stress and prevent lifestyle diseases.",
+      level: parseInt(skillsContent.skill_5_level || "90"),
+    },
+  ];
+
   return (
     <section className="section-padding">
       <div className="section-container">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
-            <span className="text-sm font-medium text-muted-foreground">Skills & Expertise</span>
+            <span className="text-sm font-medium text-muted-foreground">{skillsContent.badge || "Skills & Expertise"}</span>
           </div>
           <h2 className="heading-lg mb-4">
-            Professional{" "}
-            <span className="text-gradient">Capabilities</span>
+            {skillsContent.title || "Professional Capabilities"}
           </h2>
           <p className="body-lg">
-            A comprehensive skill set developed through years of training, practice, and real-world experience.
+            {skillsContent.description || "A comprehensive skill set developed through years of training, practice, and real-world experience."}
           </p>
         </div>
 

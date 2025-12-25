@@ -1,7 +1,11 @@
 import { Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { useAllSiteContent } from "@/hooks/useSiteContent";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { data: content = {} } = useAllSiteContent();
+  const footerContent = content.footer || {};
+  const contactContent = content.contact || {};
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -16,7 +20,7 @@ export function Footer() {
               <span className="font-bold text-lg">Durgesh Koshti</span>
             </div>
             <p className="text-primary-foreground/70 text-sm leading-relaxed">
-              District Co-Ordinator at Gujarat State Yog Board. Empowering health, discipline & awareness through yoga.
+              {footerContent.description || "District Co-Ordinator at Gujarat State Yog Board. Empowering health, discipline & awareness through yoga."}
             </p>
           </div>
 
@@ -44,31 +48,31 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Contact</h4>
             <div className="flex flex-col gap-3">
               <a
-                href="tel:+919974454516"
+                href={`tel:${(contactContent.phone || "+919974454516").replace(/\s/g, "")}`}
                 className="flex items-center gap-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
               >
                 <Phone className="h-4 w-4" />
-                +91 99744 54516
+                {contactContent.phone || "+91 99744 54516"}
               </a>
               <a
-                href="mailto:Durgeshh.yoga@gmail.com"
+                href={`mailto:${contactContent.email || "Durgeshh.yoga@gmail.com"}`}
                 className="flex items-center gap-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
               >
                 <Mail className="h-4 w-4" />
-                Durgeshh.yoga@gmail.com
+                {contactContent.email || "Durgeshh.yoga@gmail.com"}
               </a>
               <a
-                href="https://instagram.com/Durgesh.yoga"
+                href={contactContent.instagram_url || "https://instagram.com/Durgesh.yoga"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
               >
                 <Instagram className="h-4 w-4" />
-                @Durgesh.yoga
+                {contactContent.instagram || "@Durgesh.yoga"}
               </a>
               <div className="flex items-center gap-2 text-sm text-primary-foreground/70">
                 <MapPin className="h-4 w-4" />
-                Gujarat, India
+                {contactContent.location || "Gujarat, India"}
               </div>
             </div>
           </div>
@@ -76,7 +80,7 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/10 mt-10 pt-6 text-center">
           <p className="text-sm text-primary-foreground/60">
-            © {currentYear} Shree Durgesh Kishorbhai Koshti. All rights reserved.
+            © {currentYear} {footerContent.copyright || "Shree Durgesh Kishorbhai Koshti"}. All rights reserved.
           </p>
         </div>
       </div>

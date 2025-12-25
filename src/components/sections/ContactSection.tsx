@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useSubmitInquiry } from "@/hooks/useInquiries";
+import { useAllSiteContent } from "@/hooks/useSiteContent";
 import { z } from "zod";
 
 const contactInfo = [
@@ -45,6 +46,9 @@ const contactSchema = z.object({
 export function ContactSection() {
   const { toast } = useToast();
   const submitInquiry = useSubmitInquiry();
+  const { data: content = {} } = useAllSiteContent();
+  const contactContent = content.contact || {};
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -53,6 +57,33 @@ export function ContactSection() {
     message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const contactInfo = [
+    {
+      icon: Phone,
+      label: "Phone / WhatsApp",
+      value: contactContent.phone || "+91 99744 54516",
+      href: `tel:${(contactContent.phone || "+919974454516").replace(/\s/g, "")}`,
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: contactContent.email || "Durgeshh.yoga@gmail.com",
+      href: `mailto:${contactContent.email || "Durgeshh.yoga@gmail.com"}`,
+    },
+    {
+      icon: Instagram,
+      label: "Instagram",
+      value: contactContent.instagram || "@Durgesh.yoga",
+      href: contactContent.instagram_url || "https://instagram.com/Durgesh.yoga",
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: contactContent.location || "Gujarat, India",
+      href: null,
+    },
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({
@@ -101,7 +132,8 @@ export function ContactSection() {
         `Message: ${formData.message.trim()}`
       );
       const whatsappLink = document.createElement('a');
-      whatsappLink.href = `https://wa.me/919974454516?text=${whatsappMessage}`;
+      const waNumber = (contactContent.phone || "919974454516").replace(/\D/g, "");
+      whatsappLink.href = `https://wa.me/${waNumber}?text=${whatsappMessage}`;
       whatsappLink.target = '_blank';
       whatsappLink.rel = 'noopener noreferrer';
       document.body.appendChild(whatsappLink);
@@ -127,8 +159,9 @@ export function ContactSection() {
     const message = encodeURIComponent(
       `Hello, I would like to inquire about your yoga programs and services.`
     );
+    const waNumber = (contactContent.phone || "919974454516").replace(/\D/g, "");
     const whatsappLink = document.createElement('a');
-    whatsappLink.href = `https://wa.me/919974454516?text=${message}`;
+    whatsappLink.href = `https://wa.me/${waNumber}?text=${message}`;
     whatsappLink.target = '_blank';
     whatsappLink.rel = 'noopener noreferrer';
     document.body.appendChild(whatsappLink);
@@ -142,23 +175,23 @@ export function ContactSection() {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
-            <span className="text-sm font-medium text-muted-foreground">Contact</span>
+            <span className="text-sm font-medium text-muted-foreground">{contactContent.badge || "Contact"}</span>
           </div>
           <h2 className="heading-lg mb-4">
-            Get In{" "}
-            <span className="text-gradient">Touch</span>
+            {contactContent.title || "Get In "}
+            {!contactContent.title && <span className="text-gradient">Touch</span>}
           </h2>
           <p className="body-lg">
-            Ready to bring yoga and wellness to your institution or organization? Let's discuss how we can work together.
+            {contactContent.description || "Ready to bring yoga and wellness to your institution or organization? Let's discuss how we can work together."}
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Contact Info */}
           <div>
-            <h3 className="heading-md mb-6">Contact Information</h3>
+            <h3 className="heading-md mb-6">{contactContent.info_title || "Contact Information"}</h3>
             <p className="text-muted-foreground mb-8">
-              Feel free to reach out for inquiries about yoga programs, workshops, or collaborations. I'm available for sessions across Gujarat.
+              {contactContent.info_desc || "Feel free to reach out for inquiries about yoga programs, workshops, or collaborations. I'm available for sessions across Gujarat."}
             </p>
 
             <div className="space-y-4 mb-8">

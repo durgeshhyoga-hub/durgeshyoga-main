@@ -14,14 +14,14 @@ export function useSiteContent(sectionKey?: string) {
     queryKey: ["site-content", sectionKey],
     queryFn: async () => {
       let query = supabase.from("site_content").select("*");
-      
+
       if (sectionKey) {
         query = query.eq("section_key", sectionKey);
         const { data, error } = await query.maybeSingle();
         if (error) throw error;
         return data as SiteContent | null;
       }
-      
+
       const { data, error } = await query;
       if (error) throw error;
       return data as SiteContent[];
@@ -35,7 +35,7 @@ export function useAllSiteContent() {
     queryFn: async () => {
       const { data, error } = await supabase.from("site_content").select("*");
       if (error) throw error;
-      
+
       const contentMap: Record<string, Record<string, string>> = {};
       (data as SiteContent[]).forEach((item) => {
         contentMap[item.section_key] = item.content;
@@ -51,8 +51,14 @@ export function useUpdateSiteContent() {
     mutationFn: async ({ sectionKey, content }: { sectionKey: string; content: Record<string, string> }) => {
       const { data, error } = await supabase
         .from("site_content")
-        .update({ content, updated_at: new Date().toISOString() })
-        .eq("section_key", sectionKey)
+        .upsert(
+          {
+            section_key: sectionKey,
+            content,
+            updated_at: new Date().toISOString()
+          },
+          { onConflict: "section_key" }
+        )
         .select()
         .single();
       if (error) throw error;
