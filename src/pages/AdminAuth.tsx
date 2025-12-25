@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, Mail, Loader2 } from "lucide-react";
 import { z } from "zod";
-import { supabase } from "@/integrations/supabase/client";
 
 const authSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -20,7 +19,6 @@ export default function AdminAuth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
   useEffect(() => {
@@ -45,45 +43,28 @@ export default function AdminAuth() {
       return;
     }
 
+    // Strict Email Check
+    if (email.toLowerCase() !== "durgeshh.yoga@gmail.com") {
+      toast({
+        title: "Access Denied",
+        description: "This restricted area is only for the site administrator.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
-    if (isSignUp) {
-      const redirectUrl = `${window.location.origin}/admin`;
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-        },
-      });
+    const { error } = await signIn(email, password);
 
-      if (error) {
-        toast({
-          title: "Sign Up Failed",
-          description: error.message,
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-        return;
-      }
-
+    if (error) {
       toast({
-        title: "Account Created!",
-        description: "Your account has been created. Please contact the administrator to get admin access.",
+        title: "Authentication Failed",
+        description: error.message || "Invalid credentials. Please try again.",
+        variant: "destructive",
       });
-      setIsSignUp(false);
-    } else {
-      const { error } = await signIn(email, password);
-
-      if (error) {
-        toast({
-          title: "Authentication Failed",
-          description: error.message || "Invalid credentials. Please try again.",
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-        return;
-      }
+      setIsSubmitting(false);
+      return;
     }
 
     setIsSubmitting(false);
@@ -107,7 +88,7 @@ export default function AdminAuth() {
           </div>
           <h1 className="text-2xl font-bold text-foreground">Admin Access</h1>
           <p className="text-muted-foreground mt-2">
-            {isSignUp ? "Create your admin account" : "Sign in to manage your portfolio"}
+            Sign in to manage your portfolio
           </p>
         </div>
 
@@ -123,7 +104,7 @@ export default function AdminAuth() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@example.com"
+                  placeholder="durgeshh.yoga@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
@@ -166,23 +147,13 @@ export default function AdminAuth() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  {isSignUp ? "Creating account..." : "Signing in..."}
+                  Signing in...
                 </>
               ) : (
-                isSignUp ? "Create Account" : "Sign In"
+                "Sign In"
               )}
             </Button>
           </form>
-
-          <div className="mt-4 text-center">
-            <button
-              type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {isSignUp ? "Already have an account? Sign in" : "Need an account? Sign up"}
-            </button>
-          </div>
         </div>
 
         <p className="text-center text-xs text-muted-foreground mt-6">
