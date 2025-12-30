@@ -82,7 +82,8 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Developer</h4>
             <div className="flex flex-col gap-3">
               <p className="text-sm text-primary-foreground/70 leading-relaxed mb-2">
-                I am Shyam. If anyone wants to make a website then contact me.
+               Hello everyone Shyam here ,
+              If you want to create websites like this contact now
               </p>
               <a
                 href="mailto:shyamweb27@gmail.com"
